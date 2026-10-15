@@ -141,6 +141,17 @@ a { color: inherit; }
 .step p { margin: 0; }
 .step strong { display: block; }
 
+/* como funciona */
+.how .wrap { padding-block: 24px 64px; }
+.how-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; counter-reset: passo; }
+.how-list li { counter-increment: passo; display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 3px solid var(--ember); }
+.how-list li::before { content: counter(passo); font-family: var(--display); font-size: 44px; line-height: 1; color: var(--ember); }
+.how-list strong { font-size: 18px; }
+.how-list p { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
+.how-cta { margin-top: 28px; }
+@media (max-width: 900px) { .how-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .how-list { grid-template-columns: minmax(0, 1fr); } }
+
 /* contato */
 .visit { background: var(--paper-2); }
 .visit .wrap { padding-block: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
@@ -194,6 +205,7 @@ footer .wrap { padding-block: 24px 120px; display: flex; justify-content: space-
     <a class="brand" href="#inicio">BRASA <span>LENTA</span></a>
     <nav aria-label="Seções">
       <a href="#cardapio">Cardápio</a>
+      <a href="#como-funciona">Como funciona</a>
       <a href="#fogo">Como fazemos</a>
       <a href="#visite">Horários</a>
     </nav>
@@ -244,6 +256,24 @@ footer .wrap { padding-block: 24px 120px; display: flex; justify-content: space-
       <div class="grid" id="burgers"></div>
 
       <div class="sides" id="sides"></div>
+    </div>
+  </section>
+
+  <section class="how" id="como-funciona">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Como funciona</h2>
+        <p>Do cardápio até a sua mesa em quatro passos, sem cadastro e sem aplicativo.</p>
+      </div>
+      <ol class="how-list">
+        <li><strong>Monte o pedido</strong><p>Toque em + nos burgers e acompanhamentos. A sacola no rodapé mostra os itens e o total.</p></li>
+        <li><strong>Envie pelo WhatsApp</strong><p>O botão abre a conversa com a mensagem pronta. Só falta colocar seu nome e se é retirada ou entrega.</p></li>
+        <li><strong>A gente confirma</strong><p>Respondemos com o tempo de preparo, a taxa de entrega do seu bairro e a forma de pagamento: Pix, cartão ou dinheiro.</p></li>
+        <li><strong>Retire ou receba</strong><p>Na retirada, o pedido sai da chapa em cerca de 25 minutos. No delivery, o motoboy leva em embalagem que segura o calor.</p></li>
+      </ol>
+      <div class="how-cta">
+        <a class="btn btn-wa js-wa" href="#" target="_blank" rel="noopener">Começar pedido no WhatsApp</a>
+      </div>
     </div>
   </section>
 

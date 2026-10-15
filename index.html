@@ -1,0 +1,431 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Brasa Lenta</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Familjen+Grotesk:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: papel de açougue + carvão. Hero tipográfico com "termômetro" de horas na brasa, cardápio em fichas de comanda, sacola fixa que monta a mensagem do WhatsApp. */
+:root {
+  --paper: #e6d6bb;      /* papel kraft */
+  --paper-2: #dcc9a8;
+  --ink: #2a1a12;        /* carvão */
+  --ink-soft: #5d4535;
+  --ember: #b6361b;      /* brasa */
+  --ember-ink: #fff4e6;
+  --mustard: #c99a2e;
+  --line: rgba(42, 26, 18, .22);
+  --wa: #1f7a4d;
+  --wa-ink: #f2fff7;
+  --card: #f1e5cf;
+  --display: "Bowlby One", "Arial Black", Impact, sans-serif;
+  --body: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1b1310; --paper-2: #241914; --ink: #f0e2cc; --ink-soft: #bfa98f;
+    --ember: #e5582f; --ember-ink: #1b0d07; --mustard: #e0b04a;
+    --line: rgba(240, 226, 204, .18); --wa: #2fa86b; --wa-ink: #04140b; --card: #2a1d17;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1b1310; --paper-2: #241914; --ink: #f0e2cc; --ink-soft: #bfa98f;
+  --ember: #e5582f; --ember-ink: #1b0d07; --mustard: #e0b04a;
+  --line: rgba(240, 226, 204, .18); --wa: #2fa86b; --wa-ink: #04140b; --card: #2a1d17;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.55;
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: .95; margin: 0; text-wrap: balance; }
+.label { font-family: var(--mono); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--mustard); outline-offset: 3px; border-radius: 4px; }
+
+/* topo */
+.top { border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-size: 20px; letter-spacing: .02em; text-decoration: none; }
+.brand span { color: var(--ember); }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { text-decoration: none; font-weight: 500; font-size: 15px; }
+.top nav a:hover { color: var(--ember); }
+
+/* hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; padding-block: 56px 48px; align-items: end; }
+.hero h1 { font-size: clamp(56px, 11vw, 148px); letter-spacing: -.01em; }
+.hero h1 .slow { display: block; color: var(--ember); }
+.hero p.lede { font-size: 20px; max-width: 34ch; margin: 22px 0 28px; color: var(--ink-soft); }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer;
+  font: 700 16px/1 var(--body); padding: 16px 22px; border-radius: 999px; text-decoration: none;
+  transition: transform .15s ease, background-color .15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-wa { background: var(--wa); color: var(--wa-ink); }
+.btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+.btn svg { width: 20px; height: 20px; flex: none; }
+
+/* termômetro de fumaça */
+.smoke {
+  border: 2px solid var(--ink); border-radius: 18px; padding: 22px; background: var(--card);
+  display: grid; gap: 16px;
+}
+.smoke h2 { font-size: 22px; }
+.gauge { display: grid; gap: 10px; }
+.gauge-row { display: grid; grid-template-columns: 92px minmax(0, 1fr) 52px; gap: 12px; align-items: center; font-size: 14.5px; }
+.gauge-row .bar { height: 12px; border-radius: 6px; background: var(--paper-2); overflow: hidden; }
+.gauge-row .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--mustard), var(--ember)); border-radius: 6px; transform-origin: left; animation: grow 1.4s cubic-bezier(.2,.7,.2,1) both; }
+.gauge-row b { font-family: var(--mono); font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+@keyframes grow { from { transform: scaleX(.15); } to { transform: scaleX(1); } }
+.smoke small { color: var(--ink-soft); font-size: 13.5px; }
+
+/* faixa */
+.strip { background: var(--ink); color: var(--paper); }
+.strip .wrap { display: flex; gap: 28px 40px; flex-wrap: wrap; padding-block: 16px; font-family: var(--mono); font-size: 13.5px; letter-spacing: .06em; text-transform: uppercase; }
+.strip span::before { content: "●"; color: var(--ember); margin-right: 10px; }
+
+/* cardápio */
+.menu .wrap { padding-block: 72px 40px; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 32px; }
+.section-head h2 { font-size: clamp(40px, 6vw, 72px); }
+.section-head p { max-width: 42ch; margin: 0; color: var(--ink-soft); }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.item {
+  background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+  padding: 22px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 12px; position: relative;
+}
+.item.star { border: 2px solid var(--ember); }
+.item .tag {
+  position: absolute; top: -12px; left: 18px; background: var(--ember); color: var(--ember-ink);
+  font: 500 11.5px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 7px 10px; border-radius: 4px;
+}
+.item-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.item h3 { font-size: 26px; }
+.price { font-family: var(--mono); font-weight: 500; font-size: 18px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.specs { display: flex; flex-wrap: wrap; gap: 6px; }
+.specs span { font: 12.5px/1 var(--mono); padding: 6px 8px; border-radius: 4px; background: var(--paper-2); color: var(--ink-soft); }
+.item p { margin: 0; font-size: 15.5px; color: var(--ink-soft); }
+.qty { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px dashed var(--line); padding-top: 14px; }
+.stepper { display: inline-flex; align-items: center; border: 2px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.stepper button { width: 38px; height: 36px; border: 0; background: transparent; color: var(--ink); font: 700 20px/1 var(--body); cursor: pointer; }
+.stepper button:hover { background: var(--paper-2); }
+.stepper output { min-width: 28px; text-align: center; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.add { border: 0; background: none; color: var(--ember); font: 700 15px var(--body); cursor: pointer; padding: 6px 0; }
+
+.sides { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.side { border-top: 2px solid var(--ink); padding-top: 12px; display: grid; gap: 6px; }
+.side-top { display: flex; justify-content: space-between; gap: 8px; font-weight: 700; }
+.side-top .price { font-size: 15px; }
+.side p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+.side .add { justify-self: start; }
+
+/* processo */
+.process .wrap { padding-block: 48px 72px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 40px; }
+.process h2 { font-size: clamp(36px, 5vw, 56px); }
+.steps { display: grid; gap: 0; }
+.step { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 20px; padding-block: 18px; border-top: 1px solid var(--line); }
+.step:last-child { border-bottom: 1px solid var(--line); }
+.step b { font-family: var(--mono); font-weight: 500; color: var(--ember); font-variant-numeric: tabular-nums; }
+.step p { margin: 0; }
+.step strong { display: block; }
+
+/* contato */
+.visit { background: var(--paper-2); }
+.visit .wrap { padding-block: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.visit h3 { font-size: 24px; margin-bottom: 10px; }
+.visit p { margin: 0; }
+.hours { font-family: var(--mono); font-size: 15px; display: grid; grid-template-columns: auto auto; gap: 4px 20px; justify-content: start; font-variant-numeric: tabular-nums; }
+.phone { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.phone code { font-family: var(--mono); font-size: 17px; user-select: all; }
+.copy { border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: 999px; padding: 6px 12px; font: 500 13px var(--body); cursor: pointer; }
+.note { font-size: 13.5px; color: var(--ink-soft); margin-top: 8px !important; }
+
+footer .wrap { padding-block: 24px 120px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px; color: var(--ink-soft); }
+
+/* sacola */
+.bag {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+  background: var(--ink); color: var(--paper);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform: translateY(110%); transition: transform .3s ease;
+}
+.bag.on { transform: none; }
+.bag .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+.bag-sum { display: grid; gap: 2px; min-width: 0; }
+.bag-sum small { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; }
+.bag-sum strong { font-size: 16px; overflow-wrap: anywhere; }
+.bag-total { font-family: var(--mono); font-size: 20px; font-variant-numeric: tabular-nums; }
+.bag-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.bag .clear { background: none; border: 0; color: var(--paper); opacity: .75; text-decoration: underline; cursor: pointer; font: 14px var(--body); }
+
+@media (max-width: 900px) {
+  .hero .wrap, .process .wrap { grid-template-columns: minmax(0, 1fr); }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sides { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .visit .wrap { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .grid, .sides { grid-template-columns: minmax(0, 1fr); }
+  .top nav { display: none; }
+  .hero .wrap { padding-block: 36px 32px; }
+  .step { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .bag-total { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">BRASA <span>LENTA</span></a>
+    <nav aria-label="Seções">
+      <a href="#cardapio">Cardápio</a>
+      <a href="#fogo">Como fazemos</a>
+      <a href="#visite">Horários</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div>
+        <p class="label">Hamburgueria artesanal · lenha de eucalipto e laranjeira</p>
+        <h1>Sem pressa.<span class="slow">Na brasa.</span></h1>
+        <p class="lede">Blend moído todo dia, pão de fermentação natural e carnes que passam a madrugada no defumador. Escolha os seus e mande o pedido pelo WhatsApp.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-wa js-wa" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.2.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.7-.6Z"/></svg>
+            Pedir pelo WhatsApp
+          </a>
+          <a class="btn btn-ghost" href="#cardapio">Ver o cardápio</a>
+        </div>
+      </div>
+      <aside class="smoke" aria-label="Tempo de defumação">
+        <p class="label">Horas no defumador hoje</p>
+        <div class="gauge">
+          <div class="gauge-row"><span>Brisket</span><span class="bar"><i style="width:100%"></i></span><b>14 h</b></div>
+          <div class="gauge-row"><span>Costela</span><span class="bar"><i style="width:71%"></i></span><b>10 h</b></div>
+          <div class="gauge-row"><span>Barriga</span><span class="bar"><i style="width:43%"></i></span><b>6 h</b></div>
+          <div class="gauge-row"><span>Bacon</span><span class="bar"><i style="width:29%"></i></span><b>4 h</b></div>
+        </div>
+        <small>Defumador a 110 °C. Quando o brisket acaba, acabou.</small>
+      </aside>
+    </div>
+  </section>
+
+  <div class="strip" aria-hidden="true">
+    <div class="wrap">
+      <span>Blend 180 g</span><span>Pão de fermentação natural</span><span>Ponto da casa: ao ponto</span><span>Retirada e delivery</span>
+    </div>
+  </div>
+
+  <section class="menu" id="cardapio">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Destaques da casa</h2>
+        <p>Toque em <strong>+</strong> para montar o pedido. A mensagem do WhatsApp sai pronta com os itens e o total.</p>
+      </div>
+
+      <div class="grid" id="burgers"></div>
+
+      <div class="sides" id="sides"></div>
+    </div>
+  </section>
+
+  <section class="process" id="fogo">
+    <div class="wrap">
+      <div>
+        <p class="label">Do açougue ao pão</p>
+        <h2>Como a gente faz</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><b>05:00</b><p><strong>Lenha acesa</strong>Eucalipto para a base e laranjeira para o aroma. O defumador estabiliza em 110 °C.</p></div>
+        <div class="step"><b>14 h</b><p><strong>Brisket no fogo</strong>Peito bovino com sal grosso e pimenta-do-reino, embrulhado em papel de açougue na metade do tempo.</p></div>
+        <div class="step"><b>180 g</b><p><strong>Blend do dia</strong>Acém, peito e um pouco de costela, moídos pela manhã. Nada congelado.</p></div>
+        <div class="step"><b>90 s</b><p><strong>Selagem na chapa</strong>Chapa a 250 °C de cada lado, queijo derretido com tampa e pão tostado na manteiga.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="visite">
+    <div class="wrap">
+      <div>
+        <h3>Onde estamos</h3>
+        <p>Rua Harmonia, 000<br>Vila Madalena, São Paulo</p>
+        <p class="note">Endereço de exemplo.</p>
+      </div>
+      <div>
+        <h3>Horários</h3>
+        <div class="hours">
+          <span>Ter a Qui</span><span>18h às 23h</span>
+          <span>Sex e Sáb</span><span>12h às 00h</span>
+          <span>Dom</span><span>12h às 17h</span>
+          <span>Seg</span><span>fechado</span>
+        </div>
+      </div>
+      <div>
+        <h3>Pedidos</h3>
+        <div class="phone">
+          <code id="phone-text">(48) 99999-9999</code>
+          <button class="copy" id="copy" type="button">Copiar número</button>
+        </div>
+        <p class="note">WhatsApp para pedidos, retirada e delivery.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Brasa Lenta · Hamburgueria artesanal</span>
+    <span>Lenha acesa às 5h, todos os dias de funcionamento.</span>
+  </div>
+</footer>
+
+<div class="bag" id="bag" aria-live="polite">
+  <div class="wrap">
+    <div class="bag-sum">
+      <small>Seu pedido</small>
+      <strong id="bag-items">Nenhum item</strong>
+    </div>
+    <div class="bag-actions">
+      <span class="bag-total" id="bag-total">R$ 0,00</span>
+      <button class="clear" id="clear" type="button">Limpar</button>
+      <a class="btn btn-wa js-wa" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHONE = "5548999999999";
+const burgers = [
+  { id: "classica", name: "Lenta Clássica", price: 36, star: true, tag: "Mais pedido",
+    specs: ["blend 180 g", "ao ponto", "pão brioche"],
+    desc: "Blend da casa, cheddar inglês, cebola caramelizada na manteiga e maionese de alho assado." },
+  { id: "brisket", name: "Brisket 14h", price: 44,
+    specs: ["brisket 150 g", "defumado 14 h", "pão de fermentação"],
+    desc: "Brisket fatiado na hora, picles de cebola roxa, coleslaw e barbecue de rapadura." },
+  { id: "fumaca", name: "Dupla Fumaça", price: 48,
+    specs: ["2 × 120 g", "bacon 4 h", "pão brioche"],
+    desc: "Dois smash na chapa, bacon defumado em casa, queijo prato e molho de pimenta defumada." },
+  { id: "costela", name: "Costela Desfiada", price: 42,
+    specs: ["costela 160 g", "defumada 10 h", "pão australiano"],
+    desc: "Costela bovina desfiada, provolone maçaricado, rúcula e vinagrete de mostarda." },
+  { id: "caipira", name: "Caipira", price: 39,
+    specs: ["blend 180 g", "ovo caipira", "pão de fermentação"],
+    desc: "Blend, queijo canastra, ovo de gema mole, couve crocante e geleia de pimenta." },
+  { id: "brasa-verde", name: "Brasa Verde", price: 34,
+    specs: ["cogumelos 160 g", "vegetariano", "pão brioche"],
+    desc: "Blend de cogumelos e feijão-preto selado na brasa, queijo coalho e chimichurri." },
+];
+const sides = [
+  { id: "fritas", name: "Fritas rústicas", price: 18, desc: "Com páprica defumada e maionese da casa." },
+  { id: "onion", name: "Anéis de cebola", price: 22, desc: "Empanados na cerveja, com barbecue." },
+  { id: "milho", name: "Milho na brasa", price: 14, desc: "Manteiga de ervas e queijo ralado." },
+  { id: "limonada", name: "Limonada de rapadura", price: 12, desc: "Copo de 400 ml, gelada." },
+];
+const all = Object.fromEntries([...burgers, ...sides].map(i => [i.id, i]));
+const cart = {};
+const brl = n => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+function burgerCard(b) {
+  return `<article class="item${b.star ? " star" : ""}">
+    ${b.tag ? `<span class="tag">${b.tag}</span>` : ""}
+    <div class="item-head"><h3>${b.name}</h3><span class="price">${brl(b.price)}</span></div>
+    <div class="specs">${b.specs.map(s => `<span>${s}</span>`).join("")}</div>
+    <p>${b.desc}</p>
+    <div class="qty">
+      <span class="stepper">
+        <button type="button" data-dec="${b.id}" aria-label="Tirar um ${b.name}">−</button>
+        <output id="q-${b.id}" aria-label="Quantidade de ${b.name}">0</output>
+        <button type="button" data-inc="${b.id}" aria-label="Adicionar um ${b.name}">+</button>
+      </span>
+      <button class="add" type="button" data-inc="${b.id}">Adicionar</button>
+    </div>
+  </article>`;
+}
+function sideCard(s) {
+  return `<div class="side">
+    <div class="side-top"><span>${s.name}</span><span class="price">${brl(s.price)}</span></div>
+    <p>${s.desc}</p>
+    <button class="add" type="button" data-inc="${s.id}">+ Adicionar <span id="q-${s.id}" class="side-q"></span></button>
+  </div>`;
+}
+document.getElementById("burgers").innerHTML = burgers.map(burgerCard).join("");
+document.getElementById("sides").innerHTML = sides.map(sideCard).join("");
+
+function message() {
+  const lines = Object.entries(cart).filter(([, q]) => q > 0);
+  if (!lines.length) return "Olá, Brasa Lenta! Quero fazer um pedido.";
+  const total = lines.reduce((t, [id, q]) => t + all[id].price * q, 0);
+  return [
+    "Olá, Brasa Lenta! Quero fazer um pedido:",
+    "",
+    ...lines.map(([id, q]) => `${q}× ${all[id].name} (${brl(all[id].price * q)})`),
+    "",
+    `Total: ${brl(total)}`,
+    "Nome:",
+    "Retirada ou entrega (endereço):",
+  ].join("\n");
+}
+function render() {
+  const lines = Object.entries(cart).filter(([, q]) => q > 0);
+  const count = lines.reduce((t, [, q]) => t + q, 0);
+  const total = lines.reduce((t, [id, q]) => t + all[id].price * q, 0);
+  for (const id in all) {
+    const el = document.getElementById("q-" + id);
+    const q = cart[id] || 0;
+    if (!el) continue;
+    if (el.classList.contains("side-q")) el.textContent = q ? `(${q})` : "";
+    else el.textContent = q;
+  }
+  document.getElementById("bag").classList.toggle("on", count > 0);
+  document.getElementById("bag-items").textContent = count
+    ? lines.map(([id, q]) => `${q}× ${all[id].name}`).join(", ")
+    : "Nenhum item";
+  document.getElementById("bag-total").textContent = brl(total);
+  const href = `https://wa.me/${PHONE}?text=${encodeURIComponent(message())}`;
+  document.querySelectorAll(".js-wa").forEach(a => a.href = href);
+}
+document.addEventListener("click", e => {
+  const inc = e.target.closest("[data-inc]");
+  const dec = e.target.closest("[data-dec]");
+  if (inc) { const id = inc.dataset.inc; cart[id] = (cart[id] || 0) + 1; render(); }
+  if (dec) { const id = dec.dataset.dec; cart[id] = Math.max(0, (cart[id] || 0) - 1); render(); }
+});
+document.getElementById("clear").addEventListener("click", () => {
+  for (const id in cart) delete cart[id];
+  render();
+});
+document.getElementById("copy").addEventListener("click", async e => {
+  const btn = e.currentTarget;
+  try {
+    await navigator.clipboard.writeText("+55 48 99999-9999");
+    btn.textContent = "Copiado";
+  } catch {
+    const r = document.createRange();
+    r.selectNodeContents(document.getElementById("phone-text"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "Selecionado";
+  }
+  setTimeout(() => btn.textContent = "Copiar número", 1800);
+});
+render();
+</script>
+
+</body></html>
